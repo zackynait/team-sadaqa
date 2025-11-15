@@ -15,6 +15,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Serve static files from public directory
 app.use(express.static(path.join(__dirname, '../public')));
 
+// Serve static files from views directory
+app.use('/views', express.static(path.join(__dirname, '../public/views'), {
+  extensions: ['html']
+}));
+
 // API Routes
 app.use('/api/stripe', require('./routes/stripe'));
 app.use('/api/paypal', require('./routes/paypal'));

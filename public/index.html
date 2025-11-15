@@ -34,8 +34,43 @@
     header {
       background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
       color: var(--white);
-      padding: 1.5rem 0;
+      padding: 1rem 0;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      color: var(--white);
+      font-size: 1.8rem;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+    
+    .nav-link {
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+    
+    .nav-link:hover {
+      background-color: rgba(255, 255, 255, 0.1);
     }
     
     .container {
@@ -46,11 +81,12 @@
     
     .hero {
       text-align: center;
-      padding: 4rem 0;
+      padding: 8rem 0 4rem;
       background: url('https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
       color: var(--white);
       position: relative;
       margin-bottom: 3rem;
+      margin-top: 60px; /* Account for fixed header */
     }
     
     .hero::before {
@@ -219,7 +255,13 @@
 <body>
   <header>
     <div class="container">
-      <h1>Team Sadaqa</h1>
+      <nav>
+        <a href="/" class="logo">Team Sadaqa</a>
+        <div class="nav-links">
+          <a href="/views/dona-ora/index.html" class="nav-link">Dona Ora</a>
+          <a href="/views/diventa-volontario/index.html" class="nav-link">Diventa Volontario</a>
+        </div>
+      </nav>
     </div>
   </header>
   
@@ -229,8 +271,8 @@
         <h1>Insieme per chi ha bisogno</h1>
         <p>Supportiamo le famiglie bisognose con donazioni e volontariato. Unisciti a noi per fare la differenza!</p>
         <div class="cta-buttons">
-          <a href="/views/dona-ora/" class="btn"><i class="fas fa-donate"></i> Dona Ora</a>
-          <a href="/views/diventa-volontario/" class="btn btn-outline"><i class="fas fa-hands-helping"></i> Diventa Volontario</a>
+          <a href="/views/dona-ora/index.html" class="btn"><i class="fas fa-donate"></i> Dona Ora</a>
+          <a href="/views/diventa-volontario/index.html" class="btn btn-outline"><i class="fas fa-hands-helping"></i> Diventa Volontario</a>
         </div>
       </div>
     </section>
