@@ -65,23 +65,23 @@
                     <div class="donation-amount-section">
                         <label for="importo" class="amount-label">Scegli l'importo della donazione</label>
                         <div class="amount-display">
-                            <span class="amount-value" id="amountValue">15</span>
+                            <span class="amount-value" id="amountValue">5</span>
                             <span class="amount-currency">€</span>
                         </div>
                         <input 
                             type="range" 
                             id="importo" 
                             name="importo" 
-                            min="15" 
-                            max="300" 
-                            step="15" 
-                            value="15" 
+                            min="5" 
+                            max="2000" 
+                            step="5" 
+                            value="5" 
                             class="amount-range"
                             required
                         >
                         <div class="amount-labels">
-                            <span>15€</span>
-                            <span>300€</span>
+                            <span>5€</span>
+                            <span>2000€</span>
                         </div>
                     </div>
 
@@ -169,4 +169,3 @@
     <script src="/assets/js/donation.js?v=1"></script>
 </body>
 </html>
-
