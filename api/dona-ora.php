@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dona Ora - Team Sadaqa</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/style.css?v=1">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -165,8 +165,8 @@
         </div>
     </footer>
 
-    <script src="/assets/js/main.js"></script>
-    <script src="/assets/js/donation.js"></script>
+    <script src="/assets/js/main.js?v=1"></script>
+    <script src="/assets/js/donation.js?v=1"></script>
 </body>
 </html>
 

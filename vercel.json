@@ -1,16 +1,14 @@
 {
   "functions": {
-    "api/index.php": {
-      "runtime": "vercel-php@0.7.3"
-    },
-    "api/diventa-volontario.php": {
-      "runtime": "vercel-php@0.7.3"
-    },
-    "api/dona-ora.php": {
+    "api/*.php": {
       "runtime": "vercel-php@0.7.3"
     }
   },
   "rewrites": [
+    {
+      "source": "/assets/(.*)",
+      "destination": "/api/assets.php"
+    },
     {
       "source": "/",
       "destination": "/api/index.php"
