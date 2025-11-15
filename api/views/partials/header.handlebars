@@ -22,9 +22,9 @@
         </div>
         <nav class="main-nav">
             <ul>
-                <li><a href="/" class="{{#if (eq active 'home')}}active{{/if}}">Home</a></li>
-                <li><a href="/dona-ora" class="{{#if (eq active 'donate')}}active{{/if}}">Dona Ora</a></li>
-                <li><a href="/diventa-volontario" class="{{#if (eq active 'volunteer')}}active{{/if}}">Diventa Volontario</a></li>
+                <li><a href="/" class="{{#ifEquals active 'home'}}active{{/ifEquals}}">Home</a></li>
+                <li><a href="/dona-ora" class="{{#ifEquals active 'donate'}}active{{/ifEquals}}">Dona Ora</a></li>
+                <li><a href="/diventa-volontario" class="{{#ifEquals active 'volunteer'}}active{{/ifEquals}}">Diventa Volontario</a></li>
             </ul>
         </nav>
     </div>

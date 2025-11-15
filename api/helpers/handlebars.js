@@ -1,8 +1,8 @@
 module.exports = {
-  eq: function (a, b) {
-    return a === b;
+  ifEquals: function(arg1, arg2, options) {
+    return (arg1 === arg2) ? options.fn(this) : options.inverse(this);
   },
-  currentYear: function () {
+  currentYear: function() {
     return new Date().getFullYear();
   }
 };

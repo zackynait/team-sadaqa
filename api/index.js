@@ -20,7 +20,14 @@ const hbs = exphbs.create({
   extname: '.handlebars',
   layoutsDir: path.join(__dirname, 'views/layouts'),
   partialsDir: path.join(__dirname, 'views/partials'),
-  helpers: require('./helpers/handlebars')
+  helpers: {
+    ifEquals: function(arg1, arg2, options) {
+      return (arg1 === arg2) ? options.fn(this) : options.inverse(this);
+    },
+    currentYear: function() {
+      return new Date().getFullYear();
+    }
+  }
 });
 
 app.engine('handlebars', hbs.engine);
