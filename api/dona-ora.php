@@ -198,16 +198,5 @@ if (importoInput) {
 
     <script src="/assets/js/main.js?v=1"></script>
     <script src="/assets/js/donation.js?v=1"></script>
-    <script>
-    document.getElementById('goToStep2').addEventListener('click', function () {
-        document.getElementById('donationForm').style.display = 'none';
-        document.getElementById('step2').style.display = 'block';
-    });
-
-    document.getElementById('backToStep1').addEventListener('click', function () {
-        document.getElementById('step2').style.display = 'none';
-        document.getElementById('donationForm').style.display = 'block';
-    });
-    </script>
 </body>
 </html>
