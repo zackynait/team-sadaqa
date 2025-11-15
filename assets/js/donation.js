@@ -137,3 +137,134 @@ if (donationForm) {
         }
     });
 }
+
+const goToStep2Btn = document.getElementById('goToStep2');
+const step2 = document.getElementById('step2');
+const step3 = document.getElementById('step3');
+const paymentContent = document.getElementById('paymentContent');
+const backToStep1 = document.getElementById('backToStep1');
+const backToStep2 = document.getElementById('backToStep2');
+
+if (goToStep2Btn && donationForm && step2 && step3 && paymentContent) {
+    // Passa a Step 2
+    goToStep2Btn.addEventListener('click', function() {
+        let isValid = true;
+
+        if (!campagnaSelect.value) {
+            isValid = false;
+            campagnaSelect.style.borderColor = '#e74c3c';
+        } else {
+            campagnaSelect.style.borderColor = '';
+        }
+
+        const nomeDonatore = document.getElementById('nomeDonatore');
+        if (nomeDonatore && !nomeDonatore.value.trim()) {
+            isValid = false;
+            nomeDonatore.style.borderColor = '#e74c3c';
+        } else if (nomeDonatore) {
+            nomeDonatore.style.borderColor = '';
+        }
+
+        const emailDonatore = document.getElementById('emailDonatore');
+        if (emailDonatore) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailDonatore.value)) {
+                isValid = false;
+                emailDonatore.style.borderColor = '#e74c3c';
+            } else {
+                emailDonatore.style.borderColor = '';
+            }
+        }
+
+        if (isValid) {
+            donationForm.style.display = 'none';
+            step2.style.display = 'block';
+        }
+    });
+
+    // Torna a Step 1
+    if (backToStep1) {
+        backToStep1.addEventListener('click', function() {
+            step2.style.display = 'none';
+            donationForm.style.display = 'block';
+        });
+    }
+
+    // Torna a Step 2
+    if (backToStep2) {
+        backToStep2.addEventListener('click', function() {
+            step3.style.display = 'none';
+            step2.style.display = 'block';
+        });
+    }
+
+    // Metodo Bonifico
+    const payBonifico = document.getElementById('payBonifico');
+    if (payBonifico) {
+        payBonifico.addEventListener('click', function() {
+            step2.style.display = 'none';
+            step3.style.display = 'block';
+            paymentContent.innerHTML = `
+                <p>IBAN: IT00X000000000000000000000</p>
+                <p>Causale: Donazione</p>
+            `;
+        });
+    }
+
+    // Metodo PayPal
+    const payPayPal = document.getElementById('payPayPal');
+    if (payPayPal) {
+        payPayPal.addEventListener('click', function() {
+            step2.style.display = 'none';
+            step3.style.display = 'block';
+            paymentContent.innerHTML = `<div id="paypal-button-container"></div>`;
+            const script = document.createElement('script');
+            script.src = "https://www.paypal.com/sdk/js?client-id=sb&currency=EUR";
+            script.onload = function() {
+                paypal.Buttons({
+                    createOrder: function(data, actions) {
+                        return actions.order.create({
+                            purchase_units: [{ amount: { value: importoRange.value } }]
+                        });
+                    },
+                    onApprove: function(data, actions) {
+                        return actions.order.capture().then(function(details) {
+                            alert('Pagamento completato da ' + details.payer.name.given_name);
+                        });
+                    }
+                }).render('#paypal-button-container');
+            };
+            document.body.appendChild(script);
+        });
+    }
+
+    // Metodo Stripe
+    const payStripe = document.getElementById('payStripe');
+    if (payStripe) {
+        payStripe.addEventListener('click', function() {
+            step2.style.display = 'none';
+            step3.style.display = 'block';
+            paymentContent.innerHTML = `<button id="stripePayNow">Paga Ora</button>`;
+            const stripeScript = document.createElement('script');
+            stripeScript.src = "https://js.stripe.com/v3/";
+            stripeScript.onload = function() {
+                const stripe = Stripe('pk_test_123456789');
+                const stripeBtn = document.getElementById('stripePayNow');
+                if (stripeBtn) {
+                    stripeBtn.addEventListener('click', function() {
+                        fetch('/api/stripe/create-session.php', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ amount: importoRange.value })
+                        })
+                        .then(res => res.json())
+                        .then(session => {
+                            stripe.redirectToCheckout({ sessionId: session.id });
+                        });
+                    });
+                }
+            };
+            document.body.appendChild(stripeScript);
+        });
+    }
+}

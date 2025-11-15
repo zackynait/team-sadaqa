@@ -35,7 +35,18 @@
             </div>
         </div>
     </header>
+    <script>
+const importoInput = document.getElementById('importo');
+if (importoInput) {
+    importoInput.addEventListener('input', function() {
+        const amount = parseInt(importoInput.value, 10);
+        updateDonationVisual(amount);
+    });
 
+    // inizializza la visualizzazione delle immagini all'apertura della pagina
+    updateDonationVisual(parseInt(importoInput.value, 10));
+}
+</script>
     <!-- Donation Section -->
     <section class="donation-section">
         <div class="container">
@@ -119,10 +130,22 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-donate">
+                    <button type="button" id="goToStep2" class="btn btn-primary btn-donate">
                         Procedi con la Donazione
                     </button>
                 </form>
+                <!-- STEP 2: Scelta Metodo di Pagamento -->
+                <div id="step2" class="wizard-step" style="display:none; margin-top:40px;">
+                    <h3>Scegli il metodo di pagamento</h3>
+    
+                    <div class="payment-methods">
+                        <button type="button" class="payment-btn" id="payBonifico">Bonifico Bancario</button>
+                        <button type="button" class="payment-btn" id="payPayPal">PayPal</button>
+                        <button type="button" class="payment-btn" id="payStripe">Carta di Credito (Stripe)</button>
+                    </div>
+    
+                    <button type="button" id="backToStep1" style="margin-top:20px;">⬅ Torna Indietro</button>
+                </div>
             </div>
         </div>
     </section>
@@ -165,7 +188,20 @@
         </div>
     </footer>
 
+</section>
+
     <script src="/assets/js/main.js?v=1"></script>
     <script src="/assets/js/donation.js?v=1"></script>
+    <script>
+    document.getElementById('goToStep2').addEventListener('click', function () {
+        document.getElementById('donationForm').style.display = 'none';
+        document.getElementById('step2').style.display = 'block';
+    });
+
+    document.getElementById('backToStep1').addEventListener('click', function () {
+        document.getElementById('step2').style.display = 'none';
+        document.getElementById('donationForm').style.display = 'block';
+    });
+    </script>
 </body>
 </html>
