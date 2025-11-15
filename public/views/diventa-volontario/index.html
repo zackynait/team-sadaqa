@@ -47,100 +47,200 @@
       align-items: center;
       margin-right: 15px;
     }
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .checkbox-container input[type="checkbox"] {
+      margin-right: 10px;
+    }
+    .checkmark {
+      position: relative;
+      top: 1px;
+      left: 0;
+      height: 25px;
+      width: 25px;
+      background-color: #eee;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+      left: 9px;
+      top: 5px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+    .checkbox-container input[type="checkbox"]:checked + .checkmark:after {
+      display: block;
+    }
+    .error-message {
+      color: red;
+      font-size: 12px;
+      margin-top: 5px;
+    }
   </style>
 </head>
 <body>
   <header>
-    <h1>Diventa Volontario</h1>
-    <nav>
-      <a href="/">Torna alla Home</a>
-    </nav>
+    <div class="container">
+      <nav>
+        <a href="/" class="logo">Team Sadaqa</a>
+        <div class="nav-links">
+          <a href="/views/dona-ora/index.html">Dona Ora</a>
+          <a href="/views/diventa-volontario/index.html" class="active">Diventa Volontario</a>
+        </div>
+      </nav>
+    </div>
   </header>
 
-  <main>
-    <div class="volunteer-form">
-      <h2>Compila il modulo per diventare un volontario</h2>
-      
-      <form id="volunteer-form">
-        <div class="form-group">
-          <label for="name">Nome e Cognome *</label>
-          <input type="text" id="name" name="name" required>
-        </div>
+  <main style="margin-top: 100px;">
+    <div class="container">
+      <div class="volunteer-form">
+        <h1>Diventa Volontario</h1>
+        <p>Compila il modulo per unirti al nostro team di volontari e fare la differenza insieme a noi.</p>
         
-        <div class="form-group">
-          <label for="email">Email *</label>
-          <input type="email" id="email" name="email" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="phone">Telefono *</label>
-          <input type="tel" id="phone" name="phone" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="address">Indirizzo</label>
-          <input type="text" id="address" name="address">
-        </div>
-        
-        <div class="form-group">
-          <label>Disponibilità *</label>
-          <div class="availability">
-            <label><input type="checkbox" name="availability" value="weekday_morning"> Mattina feriale</label>
-            <label><input type="checkbox" name="availability" value="weekday_afternoon"> Pomeriggio feriale</label>
-            <label><input type="checkbox" name="availability" value="weekend"> Weekend</label>
-            <label><input type="checkbox" name="availability" value="occasional"> Occasionale</label>
+        <form id="volunteer-form">
+          <div class="form-group">
+            <label for="name">Nome e Cognome *</label>
+            <input type="text" id="name" name="name" required>
           </div>
-        </div>
-        
-        <div class="form-group">
-          <label>Competenze e Interessi</label>
-          <div class="skills-checkbox">
-            <input type="checkbox" id="skill_logistics" name="skills" value="logistics">
-            <label for="skill_logistics">Logistica e Distribuzione</label>
+          
+          <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email" required>
           </div>
-          <div class="skills-checkbox">
-            <input type="checkbox" id="skill_teaching" name="skills" value="teaching">
-            <label for="skill_teaching">Insegnamento</label>
+          
+          <div class="form-group">
+            <label for="phone">Telefono *</label>
+            <input type="tel" id="phone" name="phone" required>
           </div>
-          <div class="skills-checkbox">
-            <input type="checkbox" id="skill_medical" name="skills" value="medical">
-            <label for="skill_medical">Assistenza Medica</label>
+          
+          <div class="form-group">
+            <label for="address">Indirizzo *</label>
+            <input type="text" id="address" name="address" required>
           </div>
-          <div class="skills-checkbox">
-            <input type="checkbox" id="skill_it" name="skills" value="it">
-            <label for="skill_it">Informatica e Sviluppo Web</label>
+          
+          <div class="form-group">
+            <label>Disponibilità *</label>
+            <div class="availability">
+              <label class="checkbox-container">
+                <input type="checkbox" name="availability" value="Mattina feriale" required>
+                <span class="checkmark"></span>
+                Mattina feriale
+              </label>
+              <label class="checkbox-container">
+                <input type="checkbox" name="availability" value="Pomeriggio feriale">
+                <span class="checkmark"></span>
+                Pomeriggio feriale
+              </label>
+              <label class="checkbox-container">
+                <input type="checkbox" name="availability" value="Weekend">
+                <span class="checkmark"></span>
+                Weekend
+              </label>
+              <label class="checkbox-container">
+                <input type="checkbox" name="availability" value="Occasionale">
+                <span class="checkmark"></span>
+                Occasionale
+              </label>
+            </div>
+            <small class="error-message" id="availability-error">Seleziona almeno un'opzione</small>
           </div>
-          <div class="skills-checkbox">
-            <input type="checkbox" id="skill_other" name="skills" value="other">
-            <label for="skill_other">Altro (specificare)</label>
-            <input type="text" id="other_skill" name="other_skill" style="margin-top: 5px; width: 100%;">
+          
+          <div class="form-group">
+            <label>Competenze e Interessi *</label>
+            <div class="skills-checkbox">
+              <label class="checkbox-container">
+                <input type="checkbox" name="skills" value="Logistica e Distribuzione">
+                <span class="checkmark"></span>
+                Logistica e Distribuzione
+              </label>
+            </div>
+            <div class="skills-checkbox">
+              <label class="checkbox-container">
+                <input type="checkbox" name="skills" value="Insegnamento">
+                <span class="checkmark"></span>
+                Insegnamento
+              </label>
+            </div>
+            <div class="skills-checkbox">
+              <label class="checkbox-container">
+                <input type="checkbox" name="skills" value="Assistenza Medica">
+                <span class="checkmark"></span>
+                Assistenza Medica
+              </label>
+            </div>
+            <div class="skills-checkbox">
+              <label class="checkbox-container">
+                <input type="checkbox" name="skills" value="Informatica e Sviluppo Web">
+                <span class="checkmark"></span>
+                Informatica e Sviluppo Web
+              </label>
+            </div>
+            <div class="skills-checkbox">
+              <label class="checkbox-container">
+                <input type="checkbox" id="other-skill-checkbox" name="skills" value="Altro">
+                <span class="checkmark"></span>
+                Altro (specificare)
+              </label>
+              <input type="text" id="other-skill" name="other_skill" style="margin-top: 5px; display: none; width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            <small class="error-message" id="skills-error">Seleziona almeno un'opzione</small>
           </div>
-        </div>
-        
-        <div class="form-group">
-          <label for="experience">Esperienze pregresse nel volontariato</label>
-          <textarea id="experience" name="experience" rows="4"></textarea>
-        </div>
-        
-        <div class="form-group">
-          <label for="motivation">Perché vuoi diventare un volontario? *</label>
-          <textarea id="motivation" name="motivation" rows="4" required></textarea>
-        </div>
-        
-        <div class="form-group">
-          <label for="how_hear">Come hai conosciuto Team Sadaqa?</label>
-          <select id="how_hear" name="how_hear">
-            <option value="">Seleziona un'opzione</option>
-            <option value="friend">Da un amico/conoscente</option>
-            <option value="social">Social Media</option>
-            <option value="internet">Ricerca su Internet</option>
-            <option value="event">Evento</option>
-            <option value="other">Altro</option>
-          </select>
-        </div>
-        
-        <button type="submit" class="btn">Invia candidatura</button>
-      </form>
+          
+          <div class="form-group">
+            <label for="experience">Esperienze pregresse nel volontariato *</label>
+            <textarea id="experience" name="experience" rows="3" required></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="motivation">Perché vuoi diventare un volontario? *</label>
+            <textarea id="motivation" name="motivation" rows="4" required></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="how_heard">Come hai conosciuto Team Sadaqa? *</label>
+            <select id="how_heard" name="how_heard" required>
+              <option value="" disabled selected>Seleziona un'opzione</option>
+              <option value="Da un amico/conoscente">Da un amico/conoscente</option>
+              <option value="Social Media">Social Media</option>
+              <option value="Ricerca su Internet">Ricerca su Internet</option>
+              <option value="Evento">Evento</option>
+              <option value="Altro">Altro</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label class="checkbox-container">
+              <input type="checkbox" id="terms" name="terms" required>
+              <span class="checkmark"></span>
+              Accetto i <a href="/termini-condizioni" target="_blank" style="color: #f5b041;">termini e condizioni</a> *
+            </label>
+            <small class="error-message" id="terms-error">Devi accettare i termini e condizioni</small>
+          </div>
+          
+          <div class="form-group">
+            <label class="checkbox-container">
+              <input type="checkbox" id="newsletter" name="newsletter">
+              <span class="checkmark"></span>
+              Desidero ricevere notizie e aggiornamenti via email
+            </label>
+          </div>
+          
+          <div class="form-actions">
+            <button type="submit" class="btn">Invia candidatura</button>
+          </div>
+        </form>
+      </div>
     </div>
   </main>
 

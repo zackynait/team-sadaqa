@@ -132,30 +132,64 @@
       
       try {
         if (paymentMethod === 'stripe') {
-          const response = await fetch('/api/stripe/create-checkout-session', {
+          const name = document.getElementById('name')?.value || 'Anonimo';
+          const email = document.getElementById('email')?.value || '';
+          const message = document.getElementById('message')?.value || '';
+          
+          const response = await fetch('/api/stripe/create-session', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ amount: amount * 100 }) // Convert to cents
+            body: JSON.stringify({ 
+              amount: Math.round(amount * 100), // Convert to cents
+              name: name,
+              email: email,
+              message: message
+            })
           });
           
-          const session = await response.json();
-          window.location.href = session.url;
+          const result = await response.json();
+          
+          if (!response.ok) {
+            throw new Error(result.error || 'Errore durante la creazione del pagamento');
+          }
+          
+          if (result.url) {
+            window.location.href = result.url;
+          } else {
+            throw new Error('URL di reindirizzamento non valido');
+          }
           
         } else if (paymentMethod === 'paypal') {
-          // Handle PayPal payment
-          const response = await fetch('/api/paypal/create-order', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ amount })
-          });
-          
-          const order = await response.json();
-          // Redirect to PayPal or handle in a popup
-          window.location.href = order.links.find(link => link.rel === 'approve').href;
+          try {
+            const response = await fetch('/api/paypal/create-order', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ 
+                amount: Math.round(amount * 100), // Convert to cents
+                name: document.getElementById('name')?.value || 'Anonimo',
+                email: document.getElementById('email')?.value || ''
+              })
+            });
+            
+            const result = await response.json();
+            
+            if (!response.ok) {
+              throw new Error(result.error || 'Errore durante la creazione del pagamento PayPal');
+            }
+            
+            if (result.url) {
+              window.location.href = result.url;
+            } else {
+              throw new Error('URL di reindirizzamento PayPal non valido');
+            }
+          } catch (error) {
+            console.error('Error:', error);
+            alert('Si è verificato un errore durante il processo di donazione con PayPal.');
+          }
           
         } else if (paymentMethod === 'bank') {
           // Show bank transfer details
