@@ -34,50 +34,34 @@ if (campagnaSelect) {
 function updateDonationVisual(amount) {
     if (!amountValue || !donationImage || !donationTitle || !donationText) return;
     
-    // Aggiorna valore
     amountValue.textContent = amount;
-    
-    // Determina quale immagine e testo mostrare (ogni 15 euro cambia)
-    const level = Math.floor(amount / 15);
-    
-    // Rimuovi tutte le classi
+
     donationImage.className = 'donation-image';
-    
-    let imageClass, title, text;
-    
-    if (amount < 30) {
-        // 15€ - Pochi panini
-        imageClass = 'donation-image-1';
-        title = 'Con ' + amount + '€ puoi donare';
-        text = 'Pochi panini per una persona';
-    } else if (amount < 45) {
-        // 30€ - Panini e bevande
-        imageClass = 'donation-image-2';
-        title = 'Con ' + amount + '€ puoi donare';
-        text = 'Panini e bevande per una persona';
-    } else if (amount < 60) {
-        // 45€ - Pasto completo
-        imageClass = 'donation-image-3';
-        title = 'Con ' + amount + '€ puoi donare';
-        text = 'Un pasto completo per una persona';
-    } else if (amount < 90) {
-        // 60€ - Pasti multipli
-        imageClass = 'donation-image-4';
-        title = 'Con ' + amount + '€ puoi donare';
-        text = 'Pasti per più persone';
-    } else {
-        // 90€+ - Cibo e bevande completi
-        imageClass = 'donation-image-5';
-        title = 'Con ' + amount + '€ puoi donare';
-        text = 'Cibo e bevande per molte persone';
+
+    donationImage.innerHTML = '';
+
+    const totalIcons = Math.floor(amount / 20);
+
+    for (let i = 0; i < totalIcons; i++) {
+        const icon = document.createElement('span');
+        icon.className = 'donation-food-icon';
+        icon.textContent = i % 2 === 0 ? '🥪' : '🥤';
+        donationImage.appendChild(icon);
     }
-    
-    // Applica classe immagine
-    donationImage.classList.add(imageClass);
-    
-    // Aggiorna testo
-    donationTitle.textContent = title;
-    donationText.textContent = text;
+
+    donationTitle.textContent = 'Con ' + amount + '€ puoi donare';
+
+    if (amount < 50) {
+        donationText.textContent = 'Un piccolo aiuto per chi ha bisogno';
+    } else if (amount < 150) {
+        donationText.textContent = 'Pasti e bevande per diverse persone';
+    } else if (amount < 500) {
+        donationText.textContent = 'Supporto importante per molte persone';
+    } else if (amount < 1000) {
+        donationText.textContent = 'Aiuto massiccio per la distribuzione settimanale';
+    } else {
+        donationText.textContent = 'Una donazione enorme che sostiene centinaia di persone';
+    }
 }
 
 // Aggiorna quando cambia il range
@@ -153,4 +137,3 @@ if (donationForm) {
         }
     });
 }
-

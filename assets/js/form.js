@@ -1,12 +1,22 @@
 // Validazione Form Volontario
+let termsLinkClicked = false;
 const volunteerForm = document.getElementById('volunteerForm');
 const terminiCheckbox = document.getElementById('termini');
+if (terminiCheckbox) {
+    terminiCheckbox.addEventListener('click', function(e) {
+        if (!termsLinkClicked) {
+            e.preventDefault();
+            alert('Devi prima cliccare su "Leggi termini e condizioni".');
+        }
+    });
+}
 const terminiError = document.getElementById('termini-error');
 
 // Mostra modal termini
 function showTermsModal() {
     const modal = document.getElementById('termsModal');
     if (modal) {
+        termsLinkClicked = true;
         modal.style.display = 'block';
     }
 }
@@ -122,4 +132,3 @@ if (volunteerForm) {
         });
     });
 }
-
