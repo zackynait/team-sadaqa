@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diventa Volontario - Team Sadaqa</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .volunteer-form {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    .skills-checkbox {
+      margin: 5px 0;
+    }
+    .availability {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 10px 0;
+    }
+    .availability label {
+      display: flex;
+      align-items: center;
+      margin-right: 15px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Diventa Volontario</h1>
+    <nav>
+      <a href="/">Torna alla Home</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="volunteer-form">
+      <h2>Compila il modulo per diventare un volontario</h2>
+      
+      <form id="volunteer-form">
+        <div class="form-group">
+          <label for="name">Nome e Cognome *</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email *</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="phone">Telefono *</label>
+          <input type="tel" id="phone" name="phone" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="address">Indirizzo</label>
+          <input type="text" id="address" name="address">
+        </div>
+        
+        <div class="form-group">
+          <label>Disponibilità *</label>
+          <div class="availability">
+            <label><input type="checkbox" name="availability" value="weekday_morning"> Mattina feriale</label>
+            <label><input type="checkbox" name="availability" value="weekday_afternoon"> Pomeriggio feriale</label>
+            <label><input type="checkbox" name="availability" value="weekend"> Weekend</label>
+            <label><input type="checkbox" name="availability" value="occasional"> Occasionale</label>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label>Competenze e Interessi</label>
+          <div class="skills-checkbox">
+            <input type="checkbox" id="skill_logistics" name="skills" value="logistics">
+            <label for="skill_logistics">Logistica e Distribuzione</label>
+          </div>
+          <div class="skills-checkbox">
+            <input type="checkbox" id="skill_teaching" name="skills" value="teaching">
+            <label for="skill_teaching">Insegnamento</label>
+          </div>
+          <div class="skills-checkbox">
+            <input type="checkbox" id="skill_medical" name="skills" value="medical">
+            <label for="skill_medical">Assistenza Medica</label>
+          </div>
+          <div class="skills-checkbox">
+            <input type="checkbox" id="skill_it" name="skills" value="it">
+            <label for="skill_it">Informatica e Sviluppo Web</label>
+          </div>
+          <div class="skills-checkbox">
+            <input type="checkbox" id="skill_other" name="skills" value="other">
+            <label for="skill_other">Altro (specificare)</label>
+            <input type="text" id="other_skill" name="other_skill" style="margin-top: 5px; width: 100%;">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="experience">Esperienze pregresse nel volontariato</label>
+          <textarea id="experience" name="experience" rows="4"></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="motivation">Perché vuoi diventare un volontario? *</label>
+          <textarea id="motivation" name="motivation" rows="4" required></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="how_hear">Come hai conosciuto Team Sadaqa?</label>
+          <select id="how_hear" name="how_hear">
+            <option value="">Seleziona un'opzione</option>
+            <option value="friend">Da un amico/conoscente</option>
+            <option value="social">Social Media</option>
+            <option value="internet">Ricerca su Internet</option>
+            <option value="event">Evento</option>
+            <option value="other">Altro</option>
+          </select>
+        </div>
+        
+        <button type="submit" class="btn">Invia candidatura</button>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Team Sadaqa. Tutti i diritti riservati.</p>
+  </footer>
+
+  <script>
+    document.getElementById('volunteer-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
+      
+      // Get all checked checkboxes
+      data.availability = Array.from(document.querySelectorAll('input[name="availability"]:checked')).map(cb => cb.value);
+      data.skills = Array.from(document.querySelectorAll('input[name="skills"]:checked')).map(cb => cb.value);
+      
+      try {
+        const response = await fetch('/api/volunteer/apply', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+        
+        if (response.ok) {
+          alert('Grazie per la tua candidatura! Ti contatteremo al più presto.');
+          window.location.href = '/';
+        } else {
+          throw new Error('Errore durante l\'invio della candidatura');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Si è verificato un errore durante l\'invio della candidatura. Riprova più tardi.');
+      }
+    });
+    
+    // Show/hide other skill input
+    document.querySelector('input[name="skills"]').addEventListener('change', (e) => {
+      const otherSkillInput = document.getElementById('other_skill');
+      otherSkillInput.style.display = e.target.value === 'other' ? 'block' : 'none';
+    });
+  </script>
+</body>
+</html>
