@@ -1,25 +1,35 @@
 {
-  "functions": {
-    "api/*.php": {
-      "runtime": "vercel-php@0.7.3"
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/index.js",
+      "use": "@vercel/node"
     }
-  },
-  "rewrites": [
+  ],
+  "routes": [
     {
-      "source": "/assets/(.*)",
-      "destination": "/api/assets.php"
+      "src": "/api/(.*)",
+      "dest": "/api/index.js"
     },
     {
-      "source": "/",
-      "destination": "/api/index.php"
+      "src": "/(.*)",
+      "dest": "/api/index.js"
     },
     {
-      "source": "/diventa-volontario",
-      "destination": "/api/diventa-volontario.php"
+      "src": "/assets/(.*)",
+      "dest": "/public/$1"
     },
     {
-      "source": "/dona-ora",
-      "destination": "/api/dona-ora.php"
+      "src": "/dona-ora",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/diventa-volontario",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/grazie",
+      "dest": "/api/index.js"
     }
   ]
 }

@@ -1,0 +1,184 @@
+<section class="volunteer-hero">
+    <div class="container">
+        <h1 class="page-title">Diventa <span class="highlight">Volontario</span></h1>
+        <p class="page-subtitle">Unisciti al nostro team e aiutaci a fare la differenza</p>
+    </div>
+</section>
+
+<section class="volunteer-section">
+    <div class="container">
+        <div class="volunteer-container">
+            <div class="volunteer-info">
+                <h2>Perché diventare un volontario?</h2>
+                <p>Come volontario di Team Sadaqa avrai l'opportunità di:</p>
+                <ul class="benefits-list">
+                    <li>Aiutare concretamente le persone bisognose della tua comunità</li>
+                    <li>Fare nuove amicizie e incontrare persone con i tuoi stessi valori</li>
+                    <li>Sviluppare nuove competenze e abilità</li>
+                    <li>Partecipare a eventi e iniziative speciali</li>
+                    <li>Fare la differenza nella vita delle persone</li>
+                </ul>
+
+                <h2>Cosa facciamo</h2>
+                <div class="activities-grid">
+                    <div class="activity-card">
+                        <div class="activity-icon">🍽️</div>
+                        <h3>Distribuzione Cibo</h3>
+                        <p>Preparazione e distribuzione di pasti caldi e pacchi alimentari alle persone senza fissa dimora.</p>
+                    </div>
+                    <div class="activity-card">
+                        <div class="activity-icon">👕</div>
+                        <h3>Abbigliamento</h3>
+                        <p>Raccolta e distribuzione di vestiti, coperte e beni di prima necessità.</p>
+                    </div>
+                    <div class="activity-card">
+                        <div class="activity-icon">🤝</div>
+                        <h3>Sostegno</h3>
+                        <p>Supporto e ascolto per le persone in difficoltà.</p>
+                    </div>
+                    <div class="activity-card">
+                        <div class="activity-icon">📦</div>
+                        <h3>Logistica</h3>
+                        <p>Organizzazione e gestione dei magazzini e delle attività di raccolta.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="volunteer-form-container">
+                <h2>Compila il modulo per diventare volontario</h2>
+                <form id="volunteerForm" class="volunteer-form">
+                    <div class="form-group">
+                        <label for="fullName">Nome e Cognome *</label>
+                        <input type="text" id="fullName" name="fullName" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Telefono *</label>
+                        <input type="tel" id="phone" name="phone" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="birthDate">Data di nascita *</label>
+                        <input type="date" id="birthDate" name="birthDate" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Indirizzo</label>
+                        <input type="text" id="address" name="address" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="city">Città *</label>
+                        <input type="text" id="city" name="city" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="availability">Disponibilità *</label>
+                        <select id="availability" name="availability" class="form-control" required>
+                            <option value="">Seleziona la tua disponibilità</option>
+                            <option value="weekday_morning">Mattina feriale</option>
+                            <option value="weekday_afternoon">Pomeriggio feriale</option>
+                            <option value="weekday_evening">Sera feriale</option>
+                            <option value="weekend">Weekend</option>
+                            <option value="flexible">Flessibile</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>In quali attività sei interessato a partecipare? *</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="interests" value="food_distribution"> Distribuzione cibo
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="interests" value="clothing_distribution"> Distribuzione vestiario
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="interests" value="logistics"> Logistica e magazzino
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="interests" value="fundraising"> Raccolta fondi
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="interests" value="social_media"> Social media e comunicazione
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="experience">Hai esperienze precedenti di volontariato? (opzionale)</label>
+                        <textarea id="experience" name="experience" rows="3" class="form-control"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="motivation">Perché vorresti diventare un volontario di Team Sadaqa? *</label>
+                        <textarea id="motivation" name="motivation" rows="4" class="form-control" required></textarea>
+                    </div>
+
+                    <div class="form-group form-check">
+                        <input type="checkbox" id="privacy" name="privacy" class="form-check-input" required>
+                        <label for="privacy" class="form-check-label">
+                            Acconsento al trattamento dei miei dati personali ai sensi del GDPR 2016/679. *
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Invia candidatura</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modale di conferma -->
+<div id="confirmationModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-body">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3>Grazie per la tua candidatura!</h3>
+            <p>Abbiamo ricevuto la tua richiesta di diventare un volontario di Team Sadaqa.</p>
+            <p>Ti contatteremo al più presto per i prossimi passi.</p>
+            <button id="closeConfirmationModal" class="btn btn-primary">Chiudi</button>
+        </div>
+    </div>
+</div>
+
+{{#contentFor "scripts"}}
+<script>
+    document.getElementById('volunteerForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Qui potresti aggiungere la logica per inviare i dati al server
+        // Per ora mostriamo semplicemente il modale di conferma
+        document.getElementById('confirmationModal').style.display = 'block';
+    });
+
+    // Gestione del modale di conferma
+    const modal = document.getElementById('confirmationModal');
+    const closeBtn = document.getElementsByClassName('close')[0];
+    const closeModalBtn = document.getElementById('closeConfirmationModal');
+
+    closeBtn.onclick = function() {
+        modal.style.display = 'none';
+    }
+
+    closeModalBtn.onclick = function() {
+        modal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    }
+</script>
+{{/contentFor}}

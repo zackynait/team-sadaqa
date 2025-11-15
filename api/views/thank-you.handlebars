@@ -1,0 +1,166 @@
+<section class="thank-you-section">
+    <div class="container">
+        <div class="thank-you-container">
+            <div class="thank-you-icon">
+                <i class="fas fa-heart"></i>
+            </div>
+            <h1 class="thank-you-title">Grazie per il tuo sostegno!</h1>
+            <p class="thank-you-message">
+                La tua donazione ci aiuterà a continuare il nostro lavoro a sostegno delle persone bisognose.
+                Abbiamo inviato una email di conferma all'indirizzo che ci hai fornito.
+            </p>
+            <div class="thank-you-details">
+                <div class="detail-item">
+                    <span class="detail-label">Importo:</span>
+                    <span class="detail-value">{{amount}} €</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Metodo di pagamento:</span>
+                    <span class="detail-value">{{paymentMethod}}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">ID transazione:</span>
+                    <span class="detail-value">{{transactionId}}</span>
+                </div>
+            </div>
+            <div class="thank-you-actions">
+                <a href="/" class="btn btn-primary">Torna alla Home</a>
+                <a href="/diventa-volontario" class="btn btn-secondary">Diventa Volontario</a>
+            </div>
+            <div class="social-share">
+                <p>Condividi il tuo gesto:</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" class="social-icon"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{#contentFor "styles"}}
+<style>
+    .thank-you-section {
+        padding: 80px 0;
+        text-align: center;
+    }
+    
+    .thank-you-container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: #fff;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .thank-you-icon {
+        font-size: 64px;
+        color: #4CAF50;
+        margin-bottom: 20px;
+    }
+    
+    .thank-you-title {
+        font-size: 36px;
+        color: #333;
+        margin-bottom: 20px;
+    }
+    
+    .thank-you-message {
+        font-size: 18px;
+        color: #666;
+        margin-bottom: 30px;
+        line-height: 1.6;
+    }
+    
+    .thank-you-details {
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        text-align: left;
+    }
+    
+    .detail-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .detail-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    
+    .detail-label {
+        font-weight: 600;
+        color: #555;
+    }
+    
+    .detail-value {
+        color: #333;
+    }
+    
+    .thank-you-actions {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin: 30px 0;
+    }
+    
+    .social-share {
+        margin-top: 40px;
+        padding-top: 30px;
+        border-top: 1px solid #eee;
+    }
+    
+    .social-share p {
+        margin-bottom: 15px;
+        color: #666;
+    }
+    
+    .social-icons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+    }
+    
+    .social-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: #f5f5f5;
+        border-radius: 50%;
+        color: #555;
+        font-size: 18px;
+        transition: all 0.3s ease;
+    }
+    
+    .social-icon:hover {
+        background: #4CAF50;
+        color: #fff;
+        transform: translateY(-3px);
+    }
+    
+    @media (max-width: 576px) {
+        .thank-you-container {
+            padding: 30px 20px;
+        }
+        
+        .thank-you-actions {
+            flex-direction: column;
+        }
+        
+        .thank-you-title {
+            font-size: 28px;
+        }
+    }
+</style>
+{{/contentFor}}

@@ -1,0 +1,227 @@
+<section class="donation-hero">
+    <div class="container">
+        <h1 class="page-title">Dona <span class="highlight">Ora</span></h1>
+        <p class="page-subtitle">Il tuo contributo fa la differenza nella vita di chi ha bisogno</p>
+    </div>
+</section>
+
+<section class="donation-section">
+    <div class="container">
+        <div class="donation-container">
+            <form id="donationForm" class="donation-form">
+                <div class="form-group">
+                    <label for="amount">Importo della donazione (€)</label>
+                    <input type="number" id="amount" name="amount" min="1" value="10" class="form-control" required>
+                </div>
+
+                <div class="donation-visual">
+                    <div class="donation-levels">
+                        <button type="button" class="amount-btn" data-amount="10">€10</button>
+                        <button type="button" class="amount-btn" data-amount="25">€25</button>
+                        <button type="button" class="amount-btn" data-amount="50">€50</button>
+                        <button type="button" class="amount-btn" data-amount="100">€100</button>
+                        <button type="button" class="amount-btn" data-amount="250">€250</button>
+                        <button type="button" class="amount-btn" id="customAmountBtn">Altro</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Nome e Cognome</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Messaggio (opzionale)</label>
+                    <textarea id="message" name="message" rows="3" class="form-control"></textarea>
+                </div>
+
+                <div class="form-group form-check">
+                    <input type="checkbox" id="newsletter" name="newsletter" class="form-check-input">
+                    <label for="newsletter" class="form-check-label">Iscrivimi alla newsletter</label>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">Procedi al pagamento</button>
+                </div>
+            </form>
+
+            <div class="payment-methods" id="paymentMethods" style="display: none;">
+                <h3>Scegli il metodo di pagamento</h3>
+                <div class="payment-options">
+                    <button type="button" id="stripeBtn" class="payment-btn">
+                        <i class="fab fa-cc-stripe"></i> Carta di credito (Stripe)
+                    </button>
+                    <div id="paypal-button-container"></div>
+                    <button type="button" id="bankTransferBtn" class="payment-btn">
+                        <i class="fas fa-university"></i> Bonifico Bancario
+                    </button>
+                </div>
+                <div id="bankDetails" style="display: none; margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 5px;">
+                    <h4>Dati per il bonifico bancario:</h4>
+                    <p><strong>Intestatario:</strong> Team Sadaqa APS</p>
+                    <p><strong>IBAN:</strong> IT00X 1234 5678 9012 3456 7890 123</p>
+                    <p><strong>Banca:</strong> Nome Banca</p>
+                    <p><strong>Causale:</strong> Donazione a Team Sadaqa</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modale di ringraziamento -->
+<div id="thankYouModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-body">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3>Grazie per la tua donazione!</h3>
+            <p>La tua generosità ci aiuterà a sostenere le nostre attività e a fare la differenza nella vita di chi ne ha più bisogno.</p>
+            <p>Riceverai una email di conferma con i dettagli della tua donazione.</p>
+            <button id="closeModalBtn" class="btn btn-primary">Chiudi</button>
+        </div>
+    </div>
+</div>
+
+{{#contentFor "scripts"}}
+<script>
+    // Inizializza Stripe
+    const stripe = Stripe('{{stripePublicKey}}');
+    
+    // Gestione del form di donazione
+    document.getElementById('donationForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        document.getElementById('paymentMethods').style.display = 'block';
+        window.scrollTo({
+            top: document.getElementById('paymentMethods').offsetTop - 100,
+            behavior: 'smooth'
+        });
+    });
+
+    // Gestione dei pulsanti di importo
+    document.querySelectorAll('.amount-btn').forEach(btn => {
+        if (btn.id !== 'customAmountBtn') {
+            btn.addEventListener('click', function() {
+                document.getElementById('amount').value = this.dataset.amount;
+                document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        }
+    });
+
+    // Gestione del pulsante "Altro"
+    document.getElementById('customAmountBtn').addEventListener('click', function() {
+        const amount = prompt('Inserisci l\'importo desiderato (€):', '50');
+        if (amount && !isNaN(amount) && amount > 0) {
+            document.getElementById('amount').value = amount;
+            document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+        }
+    });
+
+    // Gestione del pulsante di bonifico bancario
+    document.getElementById('bankTransferBtn').addEventListener('click', function() {
+        const bankDetails = document.getElementById('bankDetails');
+        bankDetails.style.display = bankDetails.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // Gestione del pulsante Stripe
+    document.getElementById('stripeBtn').addEventListener('click', async function() {
+        const amount = document.getElementById('amount').value * 100; // Converti in centesimi
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const message = document.getElementById('message').value;
+
+        try {
+            const response = await fetch('/api/stripe/create-session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    amount: amount,
+                    name: name,
+                    email: email,
+                    message: message
+                })
+            });
+
+            const session = await response.json();
+            
+            // Reindirizza a Stripe Checkout
+            const result = await stripe.redirectToCheckout({
+                sessionId: session.id
+            });
+
+            if (result.error) {
+                alert(result.error.message);
+            }
+        } catch (error) {
+            console.error('Errore:', error);
+            alert('Si è verificato un errore durante il pagamento. Riprova più tardi.');
+        }
+    });
+
+    // Inizializza PayPal
+    paypal.Buttons({
+        createOrder: function(data, actions) {
+            const amount = document.getElementById('amount').value;
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: amount
+                    }
+                }]
+            });
+        },
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                // Mostra il modale di ringraziamento
+                document.getElementById('thankYouModal').style.display = 'block';
+                
+                // Invia i dati al server
+                const formData = {
+                    amount: document.getElementById('amount').value,
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    message: document.getElementById('message').value,
+                    paymentMethod: 'paypal',
+                    paymentId: details.id
+                };
+
+                fetch('/api/paypal/process-payment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+            });
+        }
+    }).render('#paypal-button-container');
+
+    // Gestione del modale di ringraziamento
+    const modal = document.getElementById('thankYouModal');
+    const closeBtn = document.getElementsByClassName('close')[0];
+    const closeModalBtn = document.getElementById('closeModalBtn');
+
+    closeBtn.onclick = function() {
+        modal.style.display = 'none';
+    }
+
+    closeModalBtn.onclick = function() {
+        modal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    }
+</script>
+{{/contentFor}}
