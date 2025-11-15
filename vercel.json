@@ -2,6 +2,26 @@
   "functions": {
     "api/index.php": {
       "runtime": "vercel-php@0.7.3"
+    },
+    "api/diventa-volontario.php": {
+      "runtime": "vercel-php@0.7.3"
+    },
+    "api/dona-ora.php": {
+      "runtime": "vercel-php@0.7.3"
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/api/index.php"
+    },
+    {
+      "source": "/diventa-volontario",
+      "destination": "/api/diventa-volontario.php"
+    },
+    {
+      "source": "/dona-ora",
+      "destination": "/api/dona-ora.php"
+    }
+  ]
 }

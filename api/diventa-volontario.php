@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diventa Volontario - Team Sadaqa</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
     <header class="header">
         <div class="container">
             <div class="logo-container">
-                <a href="index.html" class="logo-link">
+                <a href="/api/index.php" class="logo-link">
                     <div class="logo-animated">
                         <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
                             <g class="hands">
@@ -195,9 +195,9 @@
                 <div class="footer-section">
                     <h4>Link Utili</h4>
                     <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="diventa-volontario.html">Diventa Volontario</a></li>
-                        <li><a href="dona-ora.html">Dona Ora</a></li>
+                        <li><a href="/api/index.php">Home</a></li>
+                        <li><a href="/api/diventa-volontario.php">Diventa Volontario</a></li>
+                        <li><a href="/api/dona-ora.php">Dona Ora</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -222,8 +222,8 @@
         </div>
     </footer>
 
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/form.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/form.js"></script>
 </body>
 </html>
 
