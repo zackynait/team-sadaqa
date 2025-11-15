@@ -6,6 +6,49 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const app = express();
+
+app.get('/api/index', (req, res) => {
+  res.setHeader("Content-Type", "text/html");
+  res.send(`
+    <!DOCTYPE html>
+    <html lang="it">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Team Sadaqa</title>
+      <link rel="stylesheet" href="/assets/css/style.css">
+    </head>
+    <body>
+      <header>
+        <h1>Team Sadaqa</h1>
+        <nav>
+          <a href="/dona-ora">Dona Ora</a>
+          <a href="/diventa-volontario">Diventa Volontario</a>
+        </nav>
+      </header>
+      <main>
+        <section class="hero">
+          <h2>Insieme per chi ha bisogno</h2>
+          <p>Supportiamo le famiglie bisognose con donazioni e volontariato.</p>
+          <a href="/dona-ora" class="btn btn-primary">Dona Ora</a>
+          <a href="/diventa-volontario" class="btn btn-secondary">Diventa Volontario</a>
+        </section>
+        <section class="stats">
+          <div class="card">Famiglie aiutate: 1200+</div>
+          <div class="card">Pasti distribuiti: 5000+</div>
+          <div class="card">Donazioni: 50.000€+</div>
+          <div class="card">Volontari attivi: 150+</div>
+        </section>
+      </main>
+      <footer>
+        <p>&copy; ${new Date().getFullYear()} Team Sadaqa</p>
+      </footer>
+      <script src="/assets/js/donation.js?v=1"></script>
+    </body>
+    </html>
+  `);
+});
+
 const port = process.env.PORT || 3000;
 
 // Middleware
