@@ -146,6 +146,12 @@ if (importoInput) {
     
                     <button type="button" id="backToStep1" style="margin-top:20px;">⬅ Torna Indietro</button>
                 </div>
+                <!-- STEP 3: Pagamento -->
+                <div id="step3" class="wizard-step" style="display:none; margin-top:40px;">
+                    <h3>Completa il pagamento</h3>
+                    <div id="paymentContent"></div>
+                    <button type="button" id="backToStep2" style="margin-top:20px;">⬅ Torna ai metodi di pagamento</button>
+                </div>
             </div>
         </div>
     </section>
