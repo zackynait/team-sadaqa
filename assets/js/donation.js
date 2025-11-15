@@ -1,3 +1,47 @@
+const style = document.createElement('style');
+style.textContent = `
+.payment-methods {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.payment-btn {
+    background-color: #f5b041;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    flex: 1;
+    min-width: 150px;
+    text-align: center;
+}
+
+.payment-btn:hover {
+    background-color: #d68910;
+    transform: translateY(-2px);
+}
+
+#backToStep1, #backToStep2 {
+    background-color: #dcdcdc;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#backToStep1:hover, #backToStep2:hover {
+    background-color: #bcbcbc;
+    transform: translateY(-1px);
+}
+`;
+document.head.appendChild(style);
+
 // Logica Donazione con Immagine Dinamica
 const importoRange = document.getElementById('importo');
 const amountValue = document.getElementById('amountValue');
@@ -33,24 +77,28 @@ if (campagnaSelect) {
 // Aggiorna immagine e testo in base all'importo
 function updateDonationVisual(amount) {
     if (!amountValue || !donationImage || !donationTitle || !donationText) return;
-    
+
     amountValue.textContent = amount;
 
     donationImage.className = 'donation-image';
-
     donationImage.innerHTML = '';
 
-    const totalIcons = Math.floor(amount / 20);
+    // Determina quante immagini mostrare (fino a 5 livelli)
+    const maxAmount = 2000;
+    let imagesToShow = Math.min(5, Math.ceil((amount / maxAmount) * 5));
 
-    for (let i = 0; i < totalIcons; i++) {
-        const icon = document.createElement('span');
-        icon.className = 'donation-food-icon';
-        icon.textContent = i % 2 === 0 ? '🥪' : '🥤';
-        donationImage.appendChild(icon);
+    for (let i = 1; i <= imagesToShow; i++) {
+        const img = document.createElement('img');
+        img.src = `/assets/images/donation-level-${i}.png`;
+        img.alt = `Livello donazione ${i}`;
+        img.className = 'donation-level-image';
+        img.style.marginRight = '5px';
+        donationImage.appendChild(img);
     }
 
     donationTitle.textContent = 'Con ' + amount + '€ puoi donare';
 
+    // Aggiorna testo descrittivo
     if (amount < 50) {
         donationText.textContent = 'Un piccolo aiuto per chi ha bisogno';
     } else if (amount < 150) {
@@ -150,6 +198,7 @@ if (goToStep2Btn && donationForm && step2 && step3 && paymentContent) {
     goToStep2Btn.addEventListener('click', function() {
         let isValid = true;
 
+        // Validazione campagna, nome, email
         if (!campagnaSelect.value) {
             isValid = false;
             campagnaSelect.style.borderColor = '#e74c3c';
@@ -179,6 +228,75 @@ if (goToStep2Btn && donationForm && step2 && step3 && paymentContent) {
         if (isValid) {
             donationForm.style.display = 'none';
             step2.style.display = 'block';
+
+            // Collega eventi pulsanti pagamento dopo che Step2 è visibile
+            const payBonifico = document.getElementById('payBonifico');
+            const payPayPal = document.getElementById('payPayPal');
+            const payStripe = document.getElementById('payStripe');
+
+            if (payBonifico) {
+                payBonifico.addEventListener('click', function() {
+                    step2.style.display = 'none';
+                    step3.style.display = 'block';
+                    paymentContent.innerHTML = `
+                        <p>IBAN: IT00X000000000000000000000</p>
+                        <p>Causale: Donazione</p>
+                    `;
+                });
+            }
+
+            if (payPayPal) {
+                payPayPal.addEventListener('click', function() {
+                    step2.style.display = 'none';
+                    step3.style.display = 'block';
+                    paymentContent.innerHTML = `<div id="paypal-button-container"></div>`;
+                    const script = document.createElement('script');
+                    script.src = "https://www.paypal.com/sdk/js?client-id=sb&currency=EUR";
+                    script.onload = function() {
+                        paypal.Buttons({
+                            createOrder: function(data, actions) {
+                                return actions.order.create({
+                                    purchase_units: [{ amount: { value: importoRange.value } }]
+                                });
+                            },
+                            onApprove: function(data, actions) {
+                                return actions.order.capture().then(function(details) {
+                                    alert('Pagamento completato da ' + details.payer.name.given_name);
+                                });
+                            }
+                        }).render('#paypal-button-container');
+                    };
+                    document.body.appendChild(script);
+                });
+            }
+
+            if (payStripe) {
+                payStripe.addEventListener('click', function() {
+                    step2.style.display = 'none';
+                    step3.style.display = 'block';
+                    paymentContent.innerHTML = `<button id="stripePayNow">Paga Ora</button>`;
+                    const stripeScript = document.createElement('script');
+                    stripeScript.src = "https://js.stripe.com/v3/";
+                    stripeScript.onload = function() {
+                        const stripe = Stripe('pk_test_123456789');
+                        const stripeBtn = document.getElementById('stripePayNow');
+                        if (stripeBtn) {
+                            stripeBtn.addEventListener('click', function() {
+                                fetch('/api/stripe/create-session.php', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ amount: importoRange.value })
+                                })
+                                .then(res => res.json())
+                                .then(session => {
+                                    stripe.redirectToCheckout({ sessionId: session.id });
+                                });
+                            });
+                        }
+                    };
+                    document.body.appendChild(stripeScript);
+                });
+            }
         }
     });
 
@@ -195,76 +313,6 @@ if (goToStep2Btn && donationForm && step2 && step3 && paymentContent) {
         backToStep2.addEventListener('click', function() {
             step3.style.display = 'none';
             step2.style.display = 'block';
-        });
-    }
-
-    // Metodo Bonifico
-    const payBonifico = document.getElementById('payBonifico');
-    if (payBonifico) {
-        payBonifico.addEventListener('click', function() {
-            step2.style.display = 'none';
-            step3.style.display = 'block';
-            paymentContent.innerHTML = `
-                <p>IBAN: IT00X000000000000000000000</p>
-                <p>Causale: Donazione</p>
-            `;
-        });
-    }
-
-    // Metodo PayPal
-    const payPayPal = document.getElementById('payPayPal');
-    if (payPayPal) {
-        payPayPal.addEventListener('click', function() {
-            step2.style.display = 'none';
-            step3.style.display = 'block';
-            paymentContent.innerHTML = `<div id="paypal-button-container"></div>`;
-            const script = document.createElement('script');
-            script.src = "https://www.paypal.com/sdk/js?client-id=sb&currency=EUR";
-            script.onload = function() {
-                paypal.Buttons({
-                    createOrder: function(data, actions) {
-                        return actions.order.create({
-                            purchase_units: [{ amount: { value: importoRange.value } }]
-                        });
-                    },
-                    onApprove: function(data, actions) {
-                        return actions.order.capture().then(function(details) {
-                            alert('Pagamento completato da ' + details.payer.name.given_name);
-                        });
-                    }
-                }).render('#paypal-button-container');
-            };
-            document.body.appendChild(script);
-        });
-    }
-
-    // Metodo Stripe
-    const payStripe = document.getElementById('payStripe');
-    if (payStripe) {
-        payStripe.addEventListener('click', function() {
-            step2.style.display = 'none';
-            step3.style.display = 'block';
-            paymentContent.innerHTML = `<button id="stripePayNow">Paga Ora</button>`;
-            const stripeScript = document.createElement('script');
-            stripeScript.src = "https://js.stripe.com/v3/";
-            stripeScript.onload = function() {
-                const stripe = Stripe('pk_test_123456789');
-                const stripeBtn = document.getElementById('stripePayNow');
-                if (stripeBtn) {
-                    stripeBtn.addEventListener('click', function() {
-                        fetch('/api/stripe/create-session.php', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ amount: importoRange.value })
-                        })
-                        .then(res => res.json())
-                        .then(session => {
-                            stripe.redirectToCheckout({ sessionId: session.id });
-                        });
-                    });
-                }
-            };
-            document.body.appendChild(stripeScript);
         });
     }
 }
