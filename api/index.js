@@ -17,21 +17,32 @@ app.get('/api/index', (req, res) => {
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Team Sadaqa</title>
       <link rel="stylesheet" href="/assets/css/style.css">
+      <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; text-align: center; background: #f9f9f9; }
+        header { background: #f5b041; padding: 20px; color: white; }
+        nav a { margin: 0 10px; color: white; text-decoration: none; font-weight: bold; }
+        main { padding: 40px 20px; }
+        .btn { display: inline-block; margin: 10px; padding: 12px 24px; background-color: #f5b041; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; transition: background-color 0.3s ease; }
+        .btn:hover { background-color: #d68910; }
+        .stats { display: flex; flex-wrap: wrap; justify-content: center; margin-top: 30px; }
+        .card { background: white; padding: 20px; margin: 10px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); width: 180px; }
+        footer { background: #333; color: white; padding: 20px; margin-top: 40px; }
+      </style>
     </head>
     <body>
       <header>
         <h1>Team Sadaqa</h1>
         <nav>
-          <a href="/dona-ora">Dona Ora</a>
-          <a href="/diventa-volontario">Diventa Volontario</a>
+          <a href="/api/dona-ora">Dona Ora</a>
+          <a href="/api/diventa-volontario">Diventa Volontario</a>
         </nav>
       </header>
       <main>
         <section class="hero">
           <h2>Insieme per chi ha bisogno</h2>
-          <p>Supportiamo le famiglie bisognose con donazioni e volontariato.</p>
-          <a href="/dona-ora" class="btn btn-primary">Dona Ora</a>
-          <a href="/diventa-volontario" class="btn btn-secondary">Diventa Volontario</a>
+          <p>Supportiamo le famiglie bisognose con donazioni e volontariato. Unisciti a noi per fare la differenza!</p>
+          <a href="/api/dona-ora" class="btn">Dona Ora</a>
+          <a href="/api/diventa-volontario" class="btn">Diventa Volontario</a>
         </section>
         <section class="stats">
           <div class="card">Famiglie aiutate: 1200+</div>
