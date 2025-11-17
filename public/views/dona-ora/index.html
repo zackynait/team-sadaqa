@@ -136,7 +136,9 @@
           const email = document.getElementById('email')?.value || '';
           const message = document.getElementById('message')?.value || '';
           
-          const response = await fetch('/api/stripe/create-session', {
+          // Usa un URL assoluto invece di un percorso relativo
+          const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://team-sadaqa.vercel.app';
+          const response = await fetch(`${baseUrl}/api/stripe/create-checkout-session`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -163,7 +165,8 @@
           
         } else if (paymentMethod === 'paypal') {
           try {
-            const response = await fetch('/api/paypal/create-order', {
+            const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://team-sadaqa.vercel.app';
+            const response = await fetch(`${baseUrl}/api/paypal/create-order`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

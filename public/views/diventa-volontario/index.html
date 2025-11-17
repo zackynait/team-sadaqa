@@ -157,47 +157,6 @@
           </div>
           
           <div class="form-group">
-            <label>Competenze e Interessi *</label>
-            <div class="skills-checkbox">
-              <label class="checkbox-container">
-                <input type="checkbox" name="skills" value="Logistica e Distribuzione">
-                <span class="checkmark"></span>
-                Logistica e Distribuzione
-              </label>
-            </div>
-            <div class="skills-checkbox">
-              <label class="checkbox-container">
-                <input type="checkbox" name="skills" value="Insegnamento">
-                <span class="checkmark"></span>
-                Insegnamento
-              </label>
-            </div>
-            <div class="skills-checkbox">
-              <label class="checkbox-container">
-                <input type="checkbox" name="skills" value="Assistenza Medica">
-                <span class="checkmark"></span>
-                Assistenza Medica
-              </label>
-            </div>
-            <div class="skills-checkbox">
-              <label class="checkbox-container">
-                <input type="checkbox" name="skills" value="Informatica e Sviluppo Web">
-                <span class="checkmark"></span>
-                Informatica e Sviluppo Web
-              </label>
-            </div>
-            <div class="skills-checkbox">
-              <label class="checkbox-container">
-                <input type="checkbox" id="other-skill-checkbox" name="skills" value="Altro">
-                <span class="checkmark"></span>
-                Altro (specificare)
-              </label>
-              <input type="text" id="other-skill" name="other_skill" style="margin-top: 5px; display: none; width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-            </div>
-            <small class="error-message" id="skills-error">Seleziona almeno un'opzione</small>
-          </div>
-          
-          <div class="form-group">
             <label for="experience">Esperienze pregresse nel volontariato *</label>
             <textarea id="experience" name="experience" rows="3" required></textarea>
           </div>
@@ -219,20 +178,36 @@
             </select>
           </div>
           
-          <div class="form-group">
-            <label class="checkbox-container">
-              <input type="checkbox" id="terms" name="terms" required>
-              <span class="checkmark"></span>
-              Accetto i <a href="/termini-condizioni" target="_blank" style="color: #f5b041;">termini e condizioni</a> *
-            </label>
-            <small class="error-message" id="terms-error">Devi accettare i termini e condizioni</small>
+          <div class="form-group terms-section">
+            <div class="terms-container">
+              <label class="checkbox-container">
+                <input type="checkbox" id="terms" name="terms" required>
+                <span class="checkmark"></span>
+                <span>Accetto i <a href="#" id="show-terms" style="color: #f5b041; text-decoration: underline;">termini e condizioni</a> *</span>
+              </label>
+              <div id="terms-content" style="display: none; margin-top: 15px; padding: 15px; background: #f9f9f9; border-radius: 4px; border: 1px solid #eee;">
+                <h4>Termini e Condizioni</h4>
+                <div style="max-height: 200px; overflow-y: auto; margin: 10px 0; padding: 10px; border: 1px solid #eee; background: white;">
+                  <p>Inserisci qui il testo completo dei tuoi termini e condizioni. Dovresti includere informazioni su:</p>
+                  <ul>
+                    <li>Come verranno utilizzati i dati personali</li>
+                    <li>Diritti e doveri dei volontari</li>
+                    <li>Politiche sulla privacy</li>
+                    <li>Normative sulla riservatezza</li>
+                    <li>Altre informazioni legali rilevanti</li>
+                  </ul>
+                </div>
+                <button type="button" id="accept-terms" class="btn" style="padding: 8px 20px; font-size: 14px;">Accetto i termini e condizioni</button>
+              </div>
+              <small class="error-message" id="terms-error">Devi accettare i termini e condizioni</small>
+            </div>
           </div>
           
           <div class="form-group">
             <label class="checkbox-container">
-              <input type="checkbox" id="newsletter" name="newsletter">
+              <input type="checkbox" id="newsletter" name="newsletter" checked>
               <span class="checkmark"></span>
-              Desidero ricevere notizie e aggiornamenti via email
+              <span>Accetto di ricevere notizie e aggiornamenti via email</span>
             </label>
           </div>
           
@@ -249,6 +224,40 @@
   </footer>
 
   <script>
+    // Gestione dei termini e condizioni
+    document.addEventListener('DOMContentLoaded', () => {
+      const showTermsBtn = document.getElementById('show-terms');
+      const termsContent = document.getElementById('terms-content');
+      const acceptTermsBtn = document.getElementById('accept-terms');
+      const termsCheckbox = document.getElementById('terms');
+      
+      // Mostra i termini quando si clicca sul link
+      showTermsBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        termsContent.style.display = 'block';
+        termsContent.scrollIntoView({ behavior: 'smooth' });
+      });
+      
+      // Accetta i termini
+      acceptTermsBtn.addEventListener('click', () => {
+        termsCheckbox.checked = true;
+        termsContent.style.display = 'none';
+        document.getElementById('terms-error').style.display = 'none';
+      });
+      
+      // Validazione del form
+      const form = document.getElementById('volunteer-form');
+      form.addEventListener('submit', (e) => {
+        if (!termsCheckbox.checked) {
+          e.preventDefault();
+          document.getElementById('terms-error').style.display = 'block';
+          termsContent.style.display = 'block';
+          termsContent.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+    
+    // Invio del form
     document.getElementById('volunteer-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       
