@@ -1,29 +1,120 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Diventa Volontario - Team Sadaqa</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
   <style>
-    .volunteer-form {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 25px 30px;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+    /* General body and font */
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #c3cfe2 0%, #e9e4f0 100%);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
       color: #333;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    /* Container to center form vertically and horizontally */
+    main.container {
+      width: 100%;
+      max-width: 700px;
+      padding: 30px 25px;
+      box-sizing: border-box;
+    }
+    /* Modern header styling */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(255 255 255 / 0.95);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      font-family: 'Poppins', sans-serif;
+      z-index: 1000;
+    }
+    header .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 10px 25px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    nav a.logo {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.6rem;
+      color: #5a4e9a;
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      gap: 8px;
+    }
+    nav a.logo svg {
+      width: 28px;
+      height: 28px;
+      fill: #5a4e9a;
+    }
+    nav .nav-links {
+      display: flex;
+      gap: 22px;
+      font-weight: 600;
+    }
+    nav .nav-links a {
+      color: #5a4e9a;
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    nav .nav-links a:hover,
+    nav .nav-links a.active {
+      background: #5a4e9a;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(90, 78, 154, 0.4);
+    }
+    /* Volunteer form styling */
+    .volunteer-form {
+      background: #fff;
+      border-radius: 20px;
+      padding: 40px 45px;
+      box-shadow: 0 8px 20px rgba(90, 78, 154, 0.15);
+      color: #444;
+      box-sizing: border-box;
+      transition: box-shadow 0.3s ease;
+    }
+    .volunteer-form:hover {
+      box-shadow: 0 12px 28px rgba(90, 78, 154, 0.25);
+    }
+    .volunteer-form h1 {
+      font-weight: 700;
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+      color: #5a4e9a;
+      text-shadow: 1.5px 1.5px 4px rgba(90, 78, 154, 0.3);
+      letter-spacing: 0.02em;
+    }
+    .volunteer-form p {
+      font-weight: 300;
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+      color: #666;
+      line-height: 1.5;
     }
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 25px;
     }
     label {
       display: block;
-      margin-bottom: 7px;
+      margin-bottom: 8px;
       font-weight: 600;
-      color: #333;
+      color: #5a4e9a;
+      font-size: 1rem;
     }
     input[type="text"],
     input[type="email"],
@@ -31,128 +122,174 @@
     textarea,
     select {
       width: 100%;
-      padding: 14px 16px;
-      border: 1.5px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
-      font-family: inherit;
-      color: #333;
-      background-color: #fff;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+      padding: 14px 18px;
+      border: 1.8px solid #c8c8d3;
+      border-radius: 14px;
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+      color: #444;
+      background-color: #fafafa;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.05);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+      resize: vertical;
+      min-height: 44px;
+    }
+    textarea {
+      min-height: 80px;
     }
     input[type="text"]:focus,
     input[type="email"]:focus,
     input[type="tel"]:focus,
     textarea:focus,
     select:focus {
-      border-color: #f5b041;
-      box-shadow: 0 0 8px rgba(245, 176, 65, 0.5);
-      outline: none;
+      border-color: #7e57c2;
+      box-shadow: 0 0 10px rgba(126, 87, 194, 0.4);
       background-color: #fff;
+      outline: none;
     }
+    /* Availability checkboxes */
     .availability {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
-      margin: 12px 0;
+      gap: 14px;
+      margin-top: 6px;
     }
-    .availability label {
+    .availability label.checkbox-container {
       display: flex;
       align-items: center;
       margin-right: 15px;
-      color: #333;
+      color: #5a4e9a;
       font-weight: 500;
+      font-size: 0.95rem;
+      cursor: pointer;
+      user-select: none;
     }
+    /* Checkbox container styling */
     .checkbox-container {
       display: flex;
       align-items: center;
-      margin-bottom: 14px;
-      color: #333;
+      margin-bottom: 16px;
+      color: #5a4e9a;
       font-weight: 500;
+      font-size: 0.95rem;
+      cursor: pointer;
+      user-select: none;
     }
     .checkbox-container input[type="checkbox"] {
-      margin-right: 12px;
-      width: 20px;
-      height: 20px;
+      margin-right: 14px;
+      width: 22px;
+      height: 22px;
       cursor: pointer;
-      border-radius: 4px;
-      border: 1.5px solid #ccc;
-      transition: border-color 0.3s ease;
+      border-radius: 6px;
+      border: 2px solid #c8c8d3;
+      transition: border-color 0.3s ease, background-color 0.3s ease;
+      background-color: #fafafa;
+      position: relative;
+      appearance: none;
+      -webkit-appearance: none;
     }
     .checkbox-container input[type="checkbox"]:checked {
-      border-color: #f5b041;
-      background-color: #f5b041;
+      border-color: #7e57c2;
+      background-color: #7e57c2;
     }
-    .checkbox-container input[type="checkbox"]:disabled {
-      cursor: not-allowed;
-      opacity: 0.6;
-      background-color: #eee;
-      border-color: #ccc;
-    }
-    .checkmark {
-      position: relative;
-      top: 1px;
-      left: 0;
-      height: 25px;
-      width: 25px;
-      background-color: #eee;
-      border-radius: 50%;
-      cursor: pointer;
-    }
-    .checkmark:after {
+    .checkbox-container input[type="checkbox"]:checked::after {
       content: "";
       position: absolute;
-      display: none;
-      left: 9px;
-      top: 5px;
+      top: 4px;
+      left: 8px;
       width: 5px;
       height: 10px;
       border: solid white;
-      border-width: 0 3px 3px 0;
-      -webkit-transform: rotate(45deg);
-      -ms-transform: rotate(45deg);
+      border-width: 0 2.5px 2.5px 0;
       transform: rotate(45deg);
+      pointer-events: none;
     }
-    .checkbox-container input[type="checkbox"]:checked + .checkmark:after {
-      display: block;
+    .checkbox-container input[type="checkbox"]:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+      background-color: #e6e6e6;
+      border-color: #bdbdbd;
     }
+    /* Hide original checkmark span */
+    .checkmark {
+      display: none;
+    }
+    /* Error message styling */
     .error-message {
-      color: #d9534f;
+      color: #e74c3c;
       font-size: 13px;
       margin-top: 6px;
       font-weight: 600;
+      display: none;
     }
-    .form-actions {
-      margin-top: 25px;
-      text-align: center;
-    }
-    .btn {
-      background-color: #f5b041;
-      border: none;
-      border-radius: 8px;
-      padding: 12px 28px;
-      font-size: 16px;
-      font-weight: 600;
-      color: white;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    .btn:hover {
-      background-color: #d9942e;
-    }
+    /* Terms container styling */
     .terms-container a {
-      color: #f5b041;
+      color: #7e57c2;
       text-decoration: underline;
       cursor: pointer;
       font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    .terms-container a:hover {
+      color: #5a3e9a;
     }
     #terms-content {
       font-size: 14px;
       color: #555;
       font-weight: 400;
       line-height: 1.5;
+      margin-top: 15px;
+      padding: 15px;
+      background: #f7f4fb;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    /* Form actions and button */
+    .form-actions {
+      margin-top: 30px;
+      text-align: center;
+    }
+    .btn {
+      background-color: #7e57c2;
+      border: none;
+      border-radius: 14px;
+      padding: 14px 36px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+      box-shadow: 0 6px 12px rgba(126, 87, 194, 0.4);
+      user-select: none;
+    }
+    .btn:hover,
+    .btn:focus {
+      background-color: #5a3e9a;
+      box-shadow: 0 8px 18px rgba(90, 62, 154, 0.6);
+      outline: none;
+    }
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .volunteer-form {
+        padding: 30px 25px;
+      }
+      nav .nav-links {
+        gap: 14px;
+      }
+      nav .nav-links a {
+        font-size: 0.95rem;
+        padding: 6px 10px;
+      }
+      .volunteer-form h1 {
+        font-size: 2.2rem;
+      }
+      main.container {
+        max-width: 100%;
+        padding: 20px 15px;
+      }
     }
   </style>
 </head>
@@ -160,133 +297,128 @@
   <header>
     <div class="container">
       <nav>
-        <a href="/" class="logo">Team Sadaqa</a>
+        <a href="/" class="logo" aria-label="Team Sadaqa Home">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2C8 2 5 5 5 9c0 3.87 3.13 7 7 7s7-3.13 7-7c0-4-3-7-7-7zm0 11c-2.21 0-4-1.79-4-4 0-1.104.896-2 2-2s2 .896 2 2c0 1.104.896 2 2 2s2-.896 2-2c0 2.21-1.79 4-4 4z"/></svg>
+          Team Sadaqa
+        </a>
         <div class="nav-links">
           <a href="/views/dona-ora/index.html">Dona Ora</a>
-          <a href="/views/diventa-volontario/index.html" class="active">Diventa Volontario</a>
+          <a href="/views/diventa-volontario/index.html" class="active" aria-current="page">Diventa Volontario</a>
         </div>
       </nav>
     </div>
   </header>
 
-  <main style="margin-top: 100px;">
-    <div class="container">
-      <div class="volunteer-form">
-        <h1>Diventa Volontario</h1>
-        <p>Compila il modulo per unirti al nostro team di volontari e fare la differenza insieme a noi.</p>
-        
-        <form id="volunteer-form">
-          <div class="form-group">
-            <label for="name">Nome e Cognome *</label>
-            <input type="text" id="name" name="name" required>
-          </div>
-          
-          <div class="form-group">
-            <label for="email">Email *</label>
-            <input type="email" id="email" name="email" required>
-          </div>
-          
-          <div class="form-group">
-            <label for="phone">Telefono *</label>
-            <input type="tel" id="phone" name="phone" required>
-          </div>
-          
-          <div class="form-group">
-            <label for="address">Indirizzo *</label>
-            <input type="text" id="address" name="address" required>
-          </div>
-          
-          <div class="form-group">
-            <label>Disponibilità *</label>
-            <div class="availability">
-              <label class="checkbox-container">
-                <input type="checkbox" name="availability" value="Mattina feriale" required>
-                <span class="checkmark"></span>
-                Mattina feriale
-              </label>
-              <label class="checkbox-container">
-                <input type="checkbox" name="availability" value="Pomeriggio feriale">
-                <span class="checkmark"></span>
-                Pomeriggio feriale
-              </label>
-              <label class="checkbox-container">
-                <input type="checkbox" name="availability" value="Weekend">
-                <span class="checkmark"></span>
-                Weekend
-              </label>
-              <label class="checkbox-container">
-                <input type="checkbox" name="availability" value="Occasionale">
-                <span class="checkmark"></span>
-                Occasionale
-              </label>
-            </div>
-            <small class="error-message" id="availability-error">Seleziona almeno un'opzione</small>
-          </div>
-          
-          <div class="form-group">
-            <label for="experience">Esperienze pregresse nel volontariato *</label>
-            <textarea id="experience" name="experience" rows="3" required></textarea>
-          </div>
-          
-          <div class="form-group">
-            <label for="motivation">Perché vuoi diventare un volontario? *</label>
-            <textarea id="motivation" name="motivation" rows="4" required></textarea>
-          </div>
-          
-          <div class="form-group">
-            <label for="how_heard">Come hai conosciuto Team Sadaqa? *</label>
-            <select id="how_heard" name="how_heard" required>
-              <option value="" disabled selected>Seleziona un'opzione</option>
-              <option value="Da un amico/conoscente">Da un amico/conoscente</option>
-              <option value="Social Media">Social Media</option>
-              <option value="Ricerca su Internet">Ricerca su Internet</option>
-              <option value="Evento">Evento</option>
-              <option value="Altro">Altro</option>
-            </select>
-          </div>
-          
-          <div class="form-group terms-section">
-            <div class="terms-container">
-              <label class="checkbox-container">
-                <input type="checkbox" id="terms" name="terms" required disabled>
-                <span class="checkmark"></span>
-                <span>Accetto i <a href="#" id="show-terms">termini e condizioni</a> *</span>
-              </label>
-              <div id="terms-content" style="display: none; margin-top: 15px; padding: 15px; background: #f9f9f9; border-radius: 4px; border: 1px solid #eee;">
-                <h4>Termini e Condizioni</h4>
-                <div style="max-height: 200px; overflow-y: auto; margin: 10px 0; padding: 10px; border: 1px solid #eee; background: white;">
-                  <p>Inserisci qui il testo completo dei tuoi termini e condizioni. Dovresti includere informazioni su:</p>
-                  <ul>
-                    <li>Come verranno utilizzati i dati personali</li>
-                    <li>Diritti e doveri dei volontari</li>
-                    <li>Politiche sulla privacy</li>
-                    <li>Normative sulla riservatezza</li>
-                    <li>Altre informazioni legali rilevanti</li>
-                  </ul>
-                </div>
-                <button type="button" id="accept-terms" class="btn" style="padding: 8px 20px; font-size: 14px;">Accetto i termini e condizioni</button>
-              </div>
-              <small class="error-message" id="terms-error">Devi accettare i termini e condizioni</small>
-            </div>
-          </div>
+  <main class="container" style="margin-top: 0;">
+    <div class="volunteer-form" role="form" aria-labelledby="form-title">
+      <h1 id="form-title">Diventa Volontario</h1>
+      <p>Compila il modulo per unirti al nostro team di volontari e fare la differenza insieme a noi.</p>
 
-          <div class="form-group">
+      <form id="volunteer-form" novalidate>
+        <div class="form-group">
+          <label for="name">Nome e Cognome *</label>
+          <input type="text" id="name" name="name" required autocomplete="name" />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email *</label>
+          <input type="email" id="email" name="email" required autocomplete="email" />
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Telefono *</label>
+          <input type="tel" id="phone" name="phone" required autocomplete="tel" />
+        </div>
+
+        <div class="form-group">
+          <label for="address">Indirizzo *</label>
+          <input type="text" id="address" name="address" required autocomplete="street-address" />
+        </div>
+
+        <div class="form-group">
+          <label>Disponibilità *</label>
+          <div class="availability" role="group" aria-labelledby="availability-label">
             <label class="checkbox-container">
-              <input type="checkbox" id="newsletter" name="newsletter">
-              <span class="checkmark"></span>
-              <span>Iscrivimi alla newsletter</span>
+              <input type="checkbox" name="availability" value="Mattina feriale" required />
+              Mattina feriale
+            </label>
+            <label class="checkbox-container">
+              <input type="checkbox" name="availability" value="Pomeriggio feriale" />
+              Pomeriggio feriale
+            </label>
+            <label class="checkbox-container">
+              <input type="checkbox" name="availability" value="Weekend" />
+              Weekend
+            </label>
+            <label class="checkbox-container">
+              <input type="checkbox" name="availability" value="Occasionale" />
+              Occasionale
             </label>
           </div>
-          
-          <div class="form-actions">
-            <button type="submit" class="btn">Invia candidatura</button>
+          <small class="error-message" id="availability-error">Seleziona almeno un'opzione</small>
+        </div>
+
+        <div class="form-group">
+          <label for="experience">Esperienze pregresse nel volontariato *</label>
+          <textarea id="experience" name="experience" rows="3" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="motivation">Perché vuoi diventare un volontario? *</label>
+          <textarea id="motivation" name="motivation" rows="4" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="how_heard">Come hai conosciuto Team Sadaqa? *</label>
+          <select id="how_heard" name="how_heard" required>
+            <option value="" disabled selected>Seleziona un'opzione</option>
+            <option value="Da un amico/conoscente">Da un amico/conoscente</option>
+            <option value="Social Media">Social Media</option>
+            <option value="Ricerca su Internet">Ricerca su Internet</option>
+            <option value="Evento">Evento</option>
+            <option value="Altro">Altro</option>
+          </select>
+        </div>
+
+        <div class="form-group terms-section">
+          <div class="terms-container">
+            <label class="checkbox-container">
+              <input type="checkbox" id="terms" name="terms" required disabled />
+              <span>Accetto i <a href="#" id="show-terms">termini e condizioni</a> *</span>
+            </label>
+            <div id="terms-content" style="display: none;">
+              <h4>Termini e Condizioni</h4>
+              <div>
+                <p>Inserisci qui il testo completo dei tuoi termini e condizioni. Dovresti includere informazioni su:</p>
+                <ul>
+                  <li>Come verranno utilizzati i dati personali</li>
+                  <li>Diritti e doveri dei volontari</li>
+                  <li>Politiche sulla privacy</li>
+                  <li>Normative sulla riservatezza</li>
+                  <li>Altre informazioni legali rilevanti</li>
+                </ul>
+              </div>
+              <button type="button" id="accept-terms" class="btn" style="padding: 10px 24px; font-size: 0.95rem; margin-top: 10px;">Accetto i termini e condizioni</button>
+            </div>
+            <small class="error-message" id="terms-error">Devi accettare i termini e condizioni</small>
           </div>
-        </form>
-      </div>
+        </div>
+
+        <div class="form-group">
+          <label class="checkbox-container">
+            <input type="checkbox" id="newsletter" name="newsletter" />
+            <span>Iscrivimi alla newsletter</span>
+          </label>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn">Invia candidatura</button>
+        </div>
+      </form>
     </div>
   </main>
 
-  <footer>
+  <footer style="text-align:center; padding: 20px 0; font-weight: 500; color: #5a4e9a; font-family: 'Poppins', sans-serif; background: transparent;">
     <p>&copy; 2025 Team Sadaqa. Tutti i diritti riservati.</p>
   </footer>
 
@@ -297,7 +429,7 @@
       const termsContent = document.getElementById('terms-content');
       const acceptTermsBtn = document.getElementById('accept-terms');
       const termsCheckbox = document.getElementById('terms');
-      
+
       // Mostra i termini quando si clicca sul link e abilita la checkbox
       showTermsBtn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -305,14 +437,14 @@
         termsContent.scrollIntoView({ behavior: 'smooth' });
         termsCheckbox.disabled = false;
       });
-      
+
       // Accetta i termini
       acceptTermsBtn.addEventListener('click', () => {
         termsCheckbox.checked = true;
         termsContent.style.display = 'none';
         document.getElementById('terms-error').style.display = 'none';
       });
-      
+
       // Validazione del form
       const form = document.getElementById('volunteer-form');
       form.addEventListener('submit', (e) => {
@@ -324,39 +456,93 @@
         }
       });
     });
-    
-    // Invio del form
+
+    // Integrazione con Supabase per l'invio diretto nella tabella "profiles"
+    // Inserisci qui la tua URL e la tua anon key di Supabase
+    const SUPABASE_URL = 'https://YOUR_SUPABASE_URL.supabase.co';
+    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+
+    // Carica supabase-js dal CDN se non già presente
+    (function loadSupabaseJs() {
+      if (!window.supabase) {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+        script.onload = () => {};
+        document.head.appendChild(script);
+      }
+    })();
+
+    // Attendi che supabase-js sia disponibile
+    async function getSupabaseClient() {
+      if (window.supabase) return window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      await new Promise(resolve => {
+        const check = () => window.supabase ? resolve() : setTimeout(check, 30);
+        check();
+      });
+      return window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+
     document.getElementById('volunteer-form').addEventListener('submit', async (e) => {
       e.preventDefault();
-      
+
+      // Validazione termini (già presente sopra)
+      // Validazione disponibilità (se necessario)
+      const availabilityChecked = Array.from(document.querySelectorAll('input[name="availability"]:checked'));
+      if (!availabilityChecked.length) {
+        document.getElementById('availability-error').style.display = 'block';
+        return;
+      } else {
+        document.getElementById('availability-error').style.display = 'none';
+      }
+
+      // Raccogli dati dal form
       const formData = new FormData(e.target);
-      const data = Object.fromEntries(formData.entries());
-      
-      // Get all checked checkboxes
-      data.availability = Array.from(document.querySelectorAll('input[name="availability"]:checked')).map(cb => cb.value);
-      data.skills = Array.from(document.querySelectorAll('input[name="skills"]:checked')).map(cb => cb.value);
-      
+      const nomeCognome = formData.get('name') || '';
+      let nome = nomeCognome.trim();
+      let cognome = '';
+      if (nomeCognome.includes(' ')) {
+        const arr = nomeCognome.trim().split(' ');
+        nome = arr[0];
+        cognome = arr.slice(1).join(' ');
+      }
+      const telefono = formData.get('phone') || '';
+      // Altri dati eventualmente utili
+      // const email = formData.get('email') || '';
+      // const address = formData.get('address') || '';
+      // const experience = formData.get('experience') || '';
+      // const motivation = formData.get('motivation') || '';
+      // const how_heard = formData.get('how_heard') || '';
+      const newsletter = formData.get('newsletter') === 'on';
+      const terms = formData.get('terms') === 'on';
+
+      // Prepara oggetto per Supabase (solo i campi richiesti)
+      const profileData = {
+        nome,
+        cognome,
+        telefono,
+        created_at: new Date().toISOString(),
+        newsletter,
+        terms
+      };
+
       try {
-        const response = await fetch('/api/volunteer/apply', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data)
-        });
-        
-        if (response.ok) {
+        const supabase = await getSupabaseClient();
+        // Inserisci nella tabella "profiles"
+        const { error } = await supabase
+          .from('profiles')
+          .insert([profileData]);
+        if (!error) {
           alert('Grazie per la tua candidatura! Ti contatteremo al più presto.');
           window.location.href = '/';
         } else {
-          throw new Error('Errore durante l\'invio della candidatura');
+          throw error;
         }
       } catch (error) {
         console.error('Error:', error);
         alert('Si è verificato un errore durante l\'invio della candidatura. Riprova più tardi.');
       }
     });
-    
+
     // Show/hide other skill input
     document.querySelector('input[name="skills"]')?.addEventListener('change', (e) => {
       const otherSkillInput = document.getElementById('other_skill');
