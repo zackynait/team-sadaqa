@@ -419,133 +419,83 @@
   </footer>
 
   <script>
-    // Gestione dei termini e condizioni
-    document.addEventListener('DOMContentLoaded', () => {
-      const showTermsBtn = document.getElementById('show-terms');
-      const termsContent = document.getElementById('terms-content');
-      const acceptTermsBtn = document.getElementById('accept-terms');
-      const termsCheckbox = document.getElementById('terms');
+document.addEventListener('DOMContentLoaded', () => {
+  const showTermsBtn = document.getElementById('show-terms');
+  const termsContent = document.getElementById('terms-content');
+  const acceptTermsBtn = document.getElementById('accept-terms');
+  const termsCheckbox = document.getElementById('terms');
 
-      // Mostra i termini quando si clicca sul link e abilita la checkbox
-      showTermsBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        termsContent.style.display = 'block';
-        termsContent.scrollIntoView({ behavior: 'smooth' });
-        termsCheckbox.disabled = false;
-      });
+  // Show terms
+  showTermsBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    termsContent.style.display = 'block';
+    termsContent.scrollIntoView({ behavior: 'smooth' });
+    termsCheckbox.disabled = false;
+  });
 
-      // Accetta i termini
-      acceptTermsBtn.addEventListener('click', () => {
-        termsCheckbox.checked = true;
-        termsContent.style.display = 'none';
-        document.getElementById('terms-error').style.display = 'none';
-      });
+  // Accept terms
+  acceptTermsBtn.addEventListener('click', () => {
+    termsCheckbox.checked = true;
+    termsContent.style.display = 'none';
+    document.getElementById('terms-error').style.display = 'none';
+  });
 
-      // Validazione del form
-      const form = document.getElementById('volunteer-form');
-      form.addEventListener('submit', (e) => {
-        if (!termsCheckbox.checked) {
-          e.preventDefault();
-          document.getElementById('terms-error').style.display = 'block';
-          termsContent.style.display = 'block';
-          termsContent.scrollIntoView({ behavior: 'smooth' });
-        }
-      });
-    });
+  const form = document.getElementById('volunteer-form');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-    // Integrazione con Supabase per l'invio diretto nella tabella "profiles"
-    // Inserisci qui la tua URL e la tua anon key di Supabase
-    const SUPABASE_URL = 'https://YOUR_SUPABASE_URL.supabase.co';
-    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
-
-    // Carica supabase-js dal CDN se non già presente
-    (function loadSupabaseJs() {
-      if (!window.supabase) {
-        const script = document.createElement('script');
-        script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-        script.onload = () => {};
-        document.head.appendChild(script);
-      }
-    })();
-
-    // Attendi che supabase-js sia disponibile
-    async function getSupabaseClient() {
-      if (window.supabase) return window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-      await new Promise(resolve => {
-        const check = () => window.supabase ? resolve() : setTimeout(check, 30);
-        check();
-      });
-      return window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    if (!termsCheckbox.checked) {
+      document.getElementById('terms-error').style.display = 'block';
+      termsContent.style.display = 'block';
+      termsContent.scrollIntoView({ behavior: 'smooth' });
+      return;
     }
 
-    document.getElementById('volunteer-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
+    const availabilityChecked = Array.from(document.querySelectorAll('input[name="availability"]:checked'));
+    if (!availabilityChecked.length) {
+      document.getElementById('availability-error').style.display = 'block';
+      return;
+    } else {
+      document.getElementById('availability-error').style.display = 'none';
+    }
 
-      // Validazione termini (già presente sopra)
-      // Validazione disponibilità (se necessario)
-      const availabilityChecked = Array.from(document.querySelectorAll('input[name="availability"]:checked'));
-      if (!availabilityChecked.length) {
-        document.getElementById('availability-error').style.display = 'block';
-        return;
+    const formData = new FormData(form);
+    const nomeCognome = formData.get('name') || '';
+    let nome = nomeCognome.trim();
+    let cognome = '';
+    if (nomeCognome.includes(' ')) {
+      const arr = nomeCognome.trim().split(' ');
+      nome = arr[0];
+      cognome = arr.slice(1).join(' ');
+    }
+
+    const profileData = {
+      nome,
+      cognome,
+      telefono: formData.get('phone') || '',
+      newsletter: formData.get('newsletter') === 'on',
+      terms: formData.get('terms') === 'on',
+    };
+
+    try {
+      const response = await fetch('/api/volunteer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(profileData)
+      });
+      const result = await response.json();
+      if(result.success) {
+        alert('Grazie per la tua candidatura! Ti contatteremo al più presto.');
+        window.location.href = '/';
       } else {
-        document.getElementById('availability-error').style.display = 'none';
+        alert('Errore: ' + (result.error || 'Si è verificato un errore'));
       }
-
-      // Raccogli dati dal form
-      const formData = new FormData(e.target);
-      const nomeCognome = formData.get('name') || '';
-      let nome = nomeCognome.trim();
-      let cognome = '';
-      if (nomeCognome.includes(' ')) {
-        const arr = nomeCognome.trim().split(' ');
-        nome = arr[0];
-        cognome = arr.slice(1).join(' ');
-      }
-      const telefono = formData.get('phone') || '';
-      // Altri dati eventualmente utili
-      // const email = formData.get('email') || '';
-      // const address = formData.get('address') || '';
-      // const experience = formData.get('experience') || '';
-      // const motivation = formData.get('motivation') || '';
-      // const how_heard = formData.get('how_heard') || '';
-      const newsletter = formData.get('newsletter') === 'on';
-      const terms = formData.get('terms') === 'on';
-
-      // Prepara oggetto per Supabase (solo i campi richiesti)
-      const profileData = {
-        nome,
-        cognome,
-        telefono,
-        created_at: new Date().toISOString(),
-        newsletter,
-        terms
-      };
-
-      try {
-        const supabase = await getSupabaseClient();
-        // Inserisci nella tabella "profiles"
-        const { error } = await supabase
-          .from('profiles')
-          .insert([profileData]);
-        if (!error) {
-          alert('Grazie per la tua candidatura! Ti contatteremo al più presto.');
-          window.location.href = '/';
-        } else {
-          throw error;
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        alert('Si è verificato un errore durante l\'invio della candidatura. Riprova più tardi.');
-      }
-    });
-
-    // Show/hide other skill input
-    document.querySelector('input[name="skills"]')?.addEventListener('change', (e) => {
-      const otherSkillInput = document.getElementById('other_skill');
-      if (otherSkillInput) {
-        otherSkillInput.style.display = e.target.value === 'other' ? 'block' : 'none';
-      }
-    });
-  </script>
+    } catch (error) {
+      console.error('Submit error:', error);
+      alert('Si è verificato un errore durante l\'invio della candidatura. Riprova più tardi.');
+    }
+  });
+});
+</script>
 </body>
 </html>
